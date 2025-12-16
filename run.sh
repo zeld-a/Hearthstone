@@ -18,66 +18,16 @@ echo "Ishnu-alah."
 # Exit on error
 set -e
 
-# Source Utils
-source utils.sh
-
-# Source Package List
-if [ ! -f "packages.conf"]; then
-	echo "Error: packages.conf not found!"
-	exit 1
-fi
-
-source packages.conf
-
-echo "Starting setup..."
-
 # Update the system
 echo "Updating system..."
 sudo pacman -Syu --noconfirm
 
-# Ensures yay AUR helper is installed & installs if not
-if ! command -v yay &> /dev/null; then
-	echo "Installin yay AUR helper..."
-	sudo pacman -S --needed git base-devel --noconfirm
-	if [[ ! -d "yay" ]]; then
-		echo "Cloning yay repository..."
-	else
-		echo "yay directory already exists, removing it..."
-		rm -rf yay
-	fi
-	
-	git clone https://aur.archlinux.org/yay.git
-	
-	cd yay
-	echo "building yay..."
-	makepkg -si --noconfirm
-	cd ..
-	rm -rf yay
-else
-	echo "yay is already installed"
-fi
+./install-yay.sh
 
-# Install packages by category
-echo "Installing system utility packages..."
-install_packages "${SYSTEM}"
-
-echo "Installing development packages..."
-install_packages "${DEVELOPMENT}"
-
-echo "Installing desktop environment packages..."
-install_packages "${DESKTOP}"
-
-echo "Installing media packages..."
-install_packages "${MEDIA}"
-
-echo "Installing font packages..."
-install_packages "${FONTS}"
-
-echo "Installing Apps..."
-install_packages "${APPS}"
+./install-packages.sh
 
 ./install-zed.sh
 
-echo "Setup complete! You may want to reboot your system."
-echo ""
+./stow-dots.sh
+
 echo "Ande'thoras-ethil."
