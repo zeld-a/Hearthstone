@@ -1,4 +1,5 @@
 #!/bin/bash
+set -euo pipefail
 
 ORIGINAL_DIR=$(pwd)
 REPO_URL="https://github.com/zeld-a/arch-sama-dots.git"
@@ -15,7 +16,7 @@ fi
 # Ensure git is installed
 if ! command -v git &> /dev/null; then
 	echo "Installing git..."
-	yay -S --noconfirm stow
+	yay -S --noconfirm git
 else
 	echo "git is already installed."
 fi
@@ -32,18 +33,14 @@ else
 fi
 
 echo "Stowing dotfiles..."
-if [ $? -eq 0 ]; then
-	stow .bashrc
-	stow fastfetch
-	stow hypr
-	stow kitty
-	stow starship
-	stow vesktop
-	stow waybar
-	stow wlogout
-	stow wofi
-	stow zed
-else
-	echo "Failed to clone the repository."
-	exit 1
-fi
+for directory in */; do
+	case "$directory" in
+		.git/|.github/|wallpaper/)
+		continue
+		;;
+	esac
+
+	stow "${directory%/}"
+done
+
+cd "$ORIGINAL_DIR"

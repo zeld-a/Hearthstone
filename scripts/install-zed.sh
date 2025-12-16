@@ -1,4 +1,5 @@
 #!/bin/bash
+set -euo pipefail
 
 if ! command -v zed &> /dev/null; then
 	echo "Installing Zed..."

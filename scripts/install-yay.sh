@@ -1,13 +1,15 @@
 #!/bin/bash
+set -euo pipefail
 
 if ! command -v yay &> /dev/null; then
-	echo "Installin yay AUR helper..."
+	echo "Installing yay AUR helper..."
 	sudo pacman -S --needed git base-devel --noconfirm
 	if [[ ! -d "yay" ]]; then
 		echo "Cloning yay repository..."
 	else
 		echo "yay directory already exists, removing it..."
 		rm -rf yay
+		echo "Cloning yay repository..."
 	fi
 	
 	git clone https://aur.archlinux.org/yay.git

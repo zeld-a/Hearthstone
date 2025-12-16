@@ -1,12 +1,12 @@
 #!/bin/bash
 
 # Checks if a package is installed.
-is_installed(){
+is_installed() {
 	pacman -Qi "$1" &> /dev/null
 }
 
 # Checks if a package group is installed.
-is_group_installed(){
+is_group_installed() {
 	pacman -Qg "$1" &> /dev/null
 }
 
