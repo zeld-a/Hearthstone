@@ -22,6 +22,7 @@ set -e
 echo "Updating system..."
 sudo pacman -Syu --noconfirm
 
+# Run install scripts
 ./install-yay.sh
 
 ./install-packages.sh
