@@ -26,3 +26,15 @@ install_packages() {
 		yay -S --noconfirm "${to_install[@]}"
 	fi
 }
+
+# Force stow if there are conflicts.
+force_stow() {
+	local package="$1"
+	
+	stow -n "$package" 2>&1 | \
+		grep 'existing target is neither a link nor a directory' | \
+		sed 's/.*: //' | \
+		xargs -r rm -rf || true
+	
+	stow "$package"
+}

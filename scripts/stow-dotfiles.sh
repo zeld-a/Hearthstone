@@ -1,6 +1,9 @@
 #!/bin/bash
 set -euo pipefail
 
+SCRIPT_DIRECTORY="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "$SCRIPT_DIRECTORY/utils.sh"
+
 ORIGINAL_DIR=$(pwd)
 REPO_URL="https://github.com/zeld-a/arch-sama-dots.git"
 REPO_NAME="dotfiles"
@@ -33,14 +36,16 @@ else
 fi
 
 echo "Stowing dotfiles..."
+
 for directory in */; do
 	case "$directory" in
 		.git/|.github/|wallpaper/)
-		continue
-		;;
+			continue
+			;;
 	esac
 
-	stow "${directory%/}"
+	package="${directory%/}"
+	force_stow "$package"
 done
 
 cd "$ORIGINAL_DIR"

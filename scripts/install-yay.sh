@@ -4,6 +4,9 @@ set -euo pipefail
 if ! command -v yay &> /dev/null; then
 	echo "Installing yay AUR helper..."
 	sudo pacman -S --needed git base-devel --noconfirm
+	
+	ORIGINAL_DIRECTORY=$(pwd)
+	
 	if [[ ! -d "yay" ]]; then
 		echo "Cloning yay repository..."
 	else
@@ -17,7 +20,7 @@ if ! command -v yay &> /dev/null; then
 	cd yay
 	echo "building yay..."
 	makepkg -si --noconfirm
-	cd ..
+	cd $ORIGINAL_DIRECTORY
 	rm -rf yay
 else
 	echo "yay is already installed"
