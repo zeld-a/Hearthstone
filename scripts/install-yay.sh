@@ -1,6 +1,8 @@
 #!/bin/bash
 set -euo pipefail
 
+cd /tmp
+
 if ! command -v yay &> /dev/null; then
 	echo "Installing yay AUR helper..."
 	sudo pacman -S --needed git base-devel --noconfirm
@@ -22,6 +24,7 @@ if ! command -v yay &> /dev/null; then
 	makepkg -si --noconfirm
 	cd $ORIGINAL_DIRECTORY
 	rm -rf yay
+	echo "yay installed!"
 else
-	echo "yay is already installed"
+	echo "yay is already installed."
 fi

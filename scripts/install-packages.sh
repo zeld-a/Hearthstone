@@ -27,10 +27,10 @@ echo "Installing packages..."
 
 # Install packages by category
 echo "Installing system utility packages..."
-install_packages "${SYSTEM[@]}"
+install_packages "${SYSTEM_UTILS[@]}"
 
 echo "Installing development packages..."
-install_packages "${DEVELOPMENT[@]}"
+install_packages "${DEV_TOOLS[@]}"
 
 echo "Installing desktop environment packages..."
 install_packages "${DESKTOP[@]}"
@@ -49,4 +49,4 @@ if [[ "$NO_GAMES" != true ]]; then
 	install_packages "${GAMES[@]}"
 fi
 
-echo "Packages Installed! You may want to reboot your system."
+echo "Packages Installed!"

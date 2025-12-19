@@ -27,7 +27,7 @@ fi
 cd ~
 
 if [ -d "$REPO_NAME" ]; then
-	echo "Repository '$REPO_NAME' already exists. Skipping clone"
+	echo "Repository '$REPO_NAME' already exists. Skipping clone."
 	cd "$REPO_NAME"
 	git pull
 else
@@ -48,4 +48,5 @@ for directory in */; do
 	force_stow "$package"
 done
 
+echo "Dotfiles Stowed!"
 cd "$ORIGINAL_DIR"

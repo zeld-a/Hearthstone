@@ -1,7 +1,6 @@
 #!/bin/bash
 
-# Exit immediately if a command fails, treat unset variables as errors,
-# and ensure pipelines fail if any command in them fails
+# Exit on error
 set -euo pipefail
 
 SCRIPT_DIRECTORY="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -16,7 +15,7 @@ print_logo() {
 EOF
 }
 
-# Parse Arguments
+# Parse cli args
 NO_GAMES=false
 while [[ "$#" -gt 0 ]]; do
 	case $1 in
@@ -29,17 +28,14 @@ done
 clear
 print_logo
 echo "Ishnu-alah."
-echo "Starting setup..."
 
-# Perform Full System Update
+# Update the system
 echo "Updating system..."
 sudo pacman -Syu --noconfirm
-echo "Update complete!"
 
-# Install yay
+# Run install scripts
 "$SCRIPT_DIRECTORY/scripts/install-yay.sh"
 
-# Install packages
 if [[ "$NO_GAMES" == true ]]; then
 	"$SCRIPT_DIRECTORY/scripts/install-packages.sh" --no-games
 else
@@ -48,14 +44,6 @@ fi
 
 "$SCRIPT_DIRECTORY/scripts/install-zed.sh"
 
-# Enable Services
-"$SCRIPT_DIRECTORY/scripts/enable-services.sh"
-
-# Stow dotfiles
 "$SCRIPT_DIRECTORY/scripts/stow-dotfiles.sh"
 
-echo "Setup complete!"
-echo ""
-echo "Please reboot your system."
-echo ""
 echo "Ande'thoras-ethil."
