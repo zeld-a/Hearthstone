@@ -23,11 +23,11 @@ for service in "${SERVICES[@]}"; do
 done
 
 # Enable user services
+echo "Configuring user services..."
 for service in "${USER_SERVICES[@]}"; do
-	echo "Configuring user services..."
-	if ! systemctl is-enabled "$service" &> /dev/null; then
+	if ! systemctl --user is-enabled "$service" &> /dev/null; then
 	    echo "Enabling $service..."
-	    sudo systemctl --user enable "$service"
+	    systemctl --user enable "$service"
 	else
 	    echo "$service is already enabled."
 	fi
