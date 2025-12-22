@@ -17,12 +17,30 @@ EOF
 }
 
 # Parse Arguments
-NO_GAMES=false
+INTEL=false
+AMD=false
+NVIDIA=false
+
 while [[ "$#" -gt 0 ]]; do
 	case $1 in
-		--no-games) NO_GAMES=true; shift ;;
-		*) echo "Unknown parameter: $1"; exit 1 ;;
-	esac
+		--intel)
+            INTEL=true
+            shift
+            ;;
+        --amd)
+            AMD=true
+            shift
+            ;;
+        --nvidia)
+            NVIDIA=true
+            shift
+            ;;
+        *)
+            echo "Unknown parameter: $1" >&2
+            echo "Valid options: --intel, --amd, --nvidia" >&2
+            exit 1
+            ;;
+    esac
 done
 
 # Clear and print logo
@@ -40,8 +58,12 @@ echo "Update complete!"
 "$SCRIPT_DIRECTORY/scripts/install-yay.sh"
 
 # Install packages
-if [[ "$NO_GAMES" == true ]]; then
-	"$SCRIPT_DIRECTORY/scripts/install-packages.sh" --no-games
+if [[ "$INTEL" == true ]]; then
+	"$SCRIPT_DIRECTORY/scripts/install-packages.sh" --intel
+elif [[ "$AMD" == true ]]; then
+	"$SCRIPT_DIRECTORY/scripts/install-packages.sh" --amd
+elif [[ "$NVIDIA" == true ]]; then
+	"$SCRIPT_DIRECTORY/scripts/install-packages.sh" --nvidia
 else
 	"$SCRIPT_DIRECTORY/scripts/install-packages.sh"
 fi

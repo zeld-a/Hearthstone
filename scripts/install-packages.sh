@@ -4,12 +4,30 @@ set -euo pipefail
 SCRIPT_DIRECTORY="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # Parse cli args
-NO_GAMES=false
+INTEL=false
+AMD=false
+NVIDIA=false
+
 while [[ "$#" -gt 0 ]]; do
 	case $1 in
-		--no-games) NO_GAMES=true; shift ;;
-		*) echo "Unknown parameter: $1"; exit 1 ;;
-	esac
+		--intel)
+            INTEL=true
+            shift
+            ;;
+        --amd)
+            AMD=true
+            shift
+            ;;
+        --nvidia)
+            NVIDIA=true
+            shift
+            ;;
+        *)
+            echo "Unknown parameter: $1" >&2
+            echo "Valid options: --intel, --amd, --nvidia" >&2
+            exit 1
+            ;;
+    esac
 done
 
 # Source Utils
@@ -26,6 +44,20 @@ source "$SCRIPT_DIRECTORY/../packages.conf"
 echo "Installing packages..."
 
 # Install packages by category
+
+echo "Installing GPU drivers..."
+if [[ "$INTEL" == true ]]; then
+	echo "Installing Intel drivers..."
+	install_packages "${INTEL[@]}"
+elif [[ "$AMD" == true ]]; then
+	echo "Installing AMD drivers..."
+	install_packages "${AMD[@]}"
+elif [[ "$NVIDIA" == true ]]; then
+	echo "Installing Nvidia drivers..."
+	install_packages "${NVIDIA[@]}"
+fi
+	
+
 echo "Installing system utility packages..."
 install_packages "${SYSTEM_UTILS[@]}"
 
@@ -43,10 +75,5 @@ install_packages "${FONTS[@]}"
 
 echo "Installing apps..."
 install_packages "${APPS[@]}"
-
-if [[ "$NO_GAMES" != true ]]; then
-	echo "Installing gaming packages..."
-	install_packages "${GAMES[@]}"
-fi
 
 echo "Packages Installed!"

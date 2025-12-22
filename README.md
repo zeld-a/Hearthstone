@@ -1,6 +1,10 @@
-#  Hearthstone
+```
+	__ _________   ___  ________ ________________  _  ______
+   / // / __/ _ | / _ \/_  __/ // / __/_  __/ __ \/ |/ / __/  A Simple Arch Linux Setup Tool
+  / _  / _// __ |/ , _/ / / / _  /\ \  / / / /_/ /    / _/
+ /_//_/___/_/ |_/_/|_| /_/ /_//_/___/ /_/  \____/_/|_/___/    by: zeld-a
 
-> A Simple Arch Linux Setup Tool
+```
 
 An automated, reproducible Arch Linux rice featuring Hyprland, with carefully curated packages and dotfiles for a beautiful and functional desktop environment.
 
