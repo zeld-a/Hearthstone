@@ -18,6 +18,7 @@ done
 # Enable user services
 echo "Configuring user services for $TARGET_USER..."
 loginctl enable-linger "$TARGET_USER"
+export XDG_RUNTIME_DIR="/run/user/$(id -u "$TARGET_USER")"
 for service in "${USER_SERVICES[@]}"; do
 	if ! runuser -u "$TARGET_USER" -- systemctl --user is-enabled "$service" &> /dev/null; then
 	    echo "Enabling user service  $service..."
