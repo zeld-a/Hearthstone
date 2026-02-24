@@ -35,8 +35,8 @@ force_stow() {
     runuser -u "$TARGET_USER" -- stow -n -v --target="/home/$TARGET_USER" "$package" 2>&1 | \
         awk '/LINK: / {print $2}' | \
         while read -r target; do
-            if [[ -e "$target" && ! -L "$target" ]]; then
-                rm -rf "$target"
+            if [[ -e "/home/$TARGET_USER/$target" && ! -L "/home/$TARGET_USER/$target" ]]; then
+                rm -rf "/home/$TARGET_USER/$target"
             fi
         done
 

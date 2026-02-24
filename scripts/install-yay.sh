@@ -21,7 +21,7 @@ if ! command -v yay &> /dev/null; then
 	cd yay
 	echo "building yay..."
 	runuser -u "$TARGET_USER" -- makepkg -si --noconfirm
-	cd $ORIGINAL_DIRECTORY
+	cd "$ORIGINAL_DIRECTORY"
 	rm -rf /tmp/yay
 	echo "yay installed!"
 else

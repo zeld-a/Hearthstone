@@ -1,13 +1,13 @@
 #!/bin/bash
 set -euo pipefail
 
+source "$SCRIPT_DIRECTORY/../packages.conf"
+source "$SCRIPT_DIRECTORY/utils.sh"
+
 SCRIPT_DIRECTORY="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ORIGINAL_DIR=$(pwd)
 DOTFILES_DIR="/home/$TARGET_USER/$REPO_NAME"
 REPO_NAME="dotfiles"
-
-source "$SCRIPT_DIRECTORY/../packages.conf"
-source "$SCRIPT_DIRECTORY/utils.sh"
 
 # Ensure stow is installed
 if ! command -v stow &> /dev/null; then
@@ -25,10 +25,10 @@ else
 	echo "git is already installed."
 fi
 
-if [ -d "$REPO_NAME" ]; then
+if [ -d "$DOTFILES_DIR" ]; then
 	echo "Repository '$REPO_NAME' already exists. Skipping clone."
-	cd "$REPO_NAME"
-	git pull
+	cd "$DOTFILES_DIR"
+	runuser -u "$TARGET_USER" -- git pull
 else
 	runuser -u "$TARGET_USER" -- git clone "$DOTFILES_URL" "$DOTFILES_DIR"
 	cd "$DOTFILES_DIR"
