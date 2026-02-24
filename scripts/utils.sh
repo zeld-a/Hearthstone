@@ -1,4 +1,5 @@
 #!/bin/bash
+set -euo pipefail
 
 # Checks if a package is installed.
 is_installed() {
@@ -23,18 +24,21 @@ install_packages() {
 
 	if [ ${#to_install[@]} -ne 0 ]; then
 		echo "Installing: ${to_install[*]}"
-		yay -S --noconfirm "${to_install[@]}"
+		runuser -u "$TARGET_USER" -- yay -S --noconfirm "${to_install[@]}"
 	fi
 }
 
-# Force stow if there are conflicts.
+# Force stow if file/ directory already exists
 force_stow() {
-	local package="$1"
-	
-	stow -n "$package" 2>&1 | \
-		grep 'existing target is neither a link nor a directory' | \
-		sed 's/.*: //' | \
-		xargs -r rm -rf || true
-	
-	stow "$package"
+    local package="$1"
+
+    runuser -u "$TARGET_USER" -- stow -n -v --target="$HOME" "$package" 2>&1 | \
+        awk '/LINK: / {print $2}' | \
+        while read -r target; do
+            if [[ -e "$target" && ! -L "$target" ]]; then
+                rm -rf "$target"
+            fi
+        done
+
+    runuser -u "$TARGET_USER" -- stow --target="$HOME" "$package"
 }
