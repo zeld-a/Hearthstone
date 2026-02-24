@@ -1,6 +1,9 @@
 #!/bin/bash
 set -euo pipefail
 
+SCRIPT_DIRECTORY="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "$SCRIPT_DIRECTORY/../packages.conf"
+
 # Enable services
 echo "Configuring system services..."
 for service in "${SERVICES[@]}"; do

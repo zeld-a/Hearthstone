@@ -12,13 +12,14 @@ if [ ! -f "$SCRIPT_DIRECTORY/packages.conf" ]; then
 	exit 1
 fi
 
+source "$SCRIPT_DIRECTORY/packages.conf"
+
 # Check for username
 if [ -z "${TARGET_USER:-}" ]; then
     echo "USER not defined in packages.conf!"
     exit 1
 fi
 
-source "$SCRIPT_DIRECTORY/packages.conf"
 source "$SCRIPT_DIRECTORY/scripts/utils.sh"
 
 print_logo() {
@@ -50,7 +51,7 @@ echo "Update complete!"
 
 # Install Zed
 echo "Installing Zed..."
-curl -f https://zed.dev/install.sh | sh
+runuser -u "$TARGET_USER" -- sh -c "curl -f https://zed.dev/install.sh | sh"
 echo "Zed installed!"
 
 # Enable Services

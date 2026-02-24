@@ -1,6 +1,10 @@
 #!/bin/bash
 set -euo pipefail
 
+SCRIPT_DIRECTORY="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "$SCRIPT_DIRECTORY/../packages.conf"
+source "$SCRIPT_DIRECTORY/utils.sh"
+
 echo "Installing packages..."
 
 # Install packages by category

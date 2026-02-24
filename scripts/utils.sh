@@ -32,7 +32,7 @@ install_packages() {
 force_stow() {
     local package="$1"
 
-    runuser -u "$TARGET_USER" -- stow -n -v --target="$HOME" "$package" 2>&1 | \
+    runuser -u "$TARGET_USER" -- stow -n -v --target="/home/$TARGET_USER" "$package" 2>&1 | \
         awk '/LINK: / {print $2}' | \
         while read -r target; do
             if [[ -e "$target" && ! -L "$target" ]]; then
@@ -40,5 +40,5 @@ force_stow() {
             fi
         done
 
-    runuser -u "$TARGET_USER" -- stow --target="$HOME" "$package"
+    runuser -u "$TARGET_USER" -- stow --target="/home/$TARGET_USER" "$package"
 }

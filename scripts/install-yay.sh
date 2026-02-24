@@ -1,5 +1,7 @@
 #!/bin/bash
 set -euo pipefail
+SCRIPT_DIRECTORY="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "$SCRIPT_DIRECTORY/../packages.conf"
 
 if ! command -v yay &> /dev/null; then
 	echo "Installing yay AUR helper..."
@@ -20,7 +22,7 @@ if ! command -v yay &> /dev/null; then
 	echo "building yay..."
 	runuser -u "$TARGET_USER" -- makepkg -si --noconfirm
 	cd $ORIGINAL_DIRECTORY
-	rm -rf yay
+	rm -rf /tmp/yay
 	echo "yay installed!"
 else
 	echo "yay is already installed."
