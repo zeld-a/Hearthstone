@@ -1,13 +1,14 @@
 #!/bin/bash
 set -euo pipefail
 
+SCRIPT_DIRECTORY="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$SCRIPT_DIRECTORY/../packages.conf"
 source "$SCRIPT_DIRECTORY/utils.sh"
 
-SCRIPT_DIRECTORY="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
 ORIGINAL_DIR=$(pwd)
-DOTFILES_DIR="/home/$TARGET_USER/$REPO_NAME"
 REPO_NAME="dotfiles"
+DOTFILES_DIR="/home/$TARGET_USER/$REPO_NAME"
 
 # Ensure stow is installed
 if ! command -v stow &> /dev/null; then
