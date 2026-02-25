@@ -1,12 +1,12 @@
 ```
-	__ _________   ___  ________ ________________  _  ______
+	  __ _________   ___  ________ ________________  _  ______
    / // / __/ _ | / _ \/_  __/ // / __/_  __/ __ \/ |/ / __/  A Simple Arch Linux Setup Tool
   / _  / _// __ |/ , _/ / / / _  /\ \  / / / /_/ /    / _/
  /_//_/___/_/ |_/_/|_| /_/ /_//_/___/ /_/  \____/_/|_/___/    by: zeld-a
 
 ```
 
-An automated, reproducible Arch Linux rice featuring Hyprland, with carefully curated packages and dotfiles for a beautiful and functional desktop environment.
+An automated, reproducible Arch Linux setup script featuring hyprland.
 
 ##  Features
 
@@ -22,14 +22,13 @@ An automated, reproducible Arch Linux rice featuring Hyprland, with carefully cu
 ### Prerequisites
 - Fresh Desktop Hyprland profile Arch Linux installation 
 - Internet connection
-- `sudo` privileges
-- 'git'
+- Must be run as root
 
 ### Quick Start
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/Hearthstone.git
+git clone https://github.com/zeld-a/Hearthstone.git
 cd Hearthstone
 ```
 
@@ -43,31 +42,24 @@ chmod +x run.sh
 ./run.sh
 ```
 
-### Installation Options
-
-**Skip gaming packages** (for a lighter installation):
-```bash
-./run.sh --no-games
-```
-
 ##  What It Does
 
 1. **System Update**: Updates all existing packages
 2. **Installs yay**: AUR helper for accessing community packages
-3. **Package Installation**: Installs all packages from `packages.conf`
-4. **Zed Editor**: Installs the Zed code editor from [Zed](https://zed.dev/install.sh)
-5. **Dotfile Setup**: Clones and stows dotfiles from [arch-sama-dots](https://github.com/zeld-a/arch-sama-dots.git)
+3. **Package Installation**: Installs all packages defined in `packages.conf`
+4. **Zed Editor**: Installs the Zed code editor from [Zed](https://zed.dev/download)
+5. **Dotfile Setup**: Clones and stows dotfiles from the specified dotfiles repo defined in 'packages.conf' *Default:* [arch-sama-dots](https://github.com/zeld-a/arch-sama-dots.git)
 
 ##  Project Structure
 
 ```
 Hearthstone/
 ├── run.sh                      # Main installation script
-├── packages.conf               # Package lists organized by category
+├── packages.conf               # Package lists and config
 ├── scripts/
+│   ├── enable-services.sh     # Service configuration
 │   ├── install-packages.sh    # Package installation logic
 │   ├── install-yay.sh         # AUR helper installation
-│   ├── install-zed.sh         # Zed editor installation
 │   ├── stow-dotfiles.sh       # Dotfile management
 │   └── utils.sh               # Helper functions
 └── README.md
@@ -77,18 +69,19 @@ Hearthstone/
 
 ### Modifying Package Lists
 
-Edit `packages.conf` to add or remove packages in any category:
-- `SYSTEM` - Core system utilities
-- `DEVELOPMENT` - Development tools
+Edit `packages.conf` to add or remove packages and services in any category:
+- `SYS_UTILS` - Core system utilities
+- `DEV_TOOLS` - Development tools
+- `TOOLCHAINS` - Compilers and runtimes
 - `DESKTOP` - Hyprland and related tools
-- `MEDIA` - Media applications
 - `FONTS` - Font packages
 - `APPS` - General applications
-- `GAMES` - Gaming-related packages
+- `SERVICES` - System services
+- `USER_SERVICES` - User services
 
 ### Using Custom Dotfiles
 
-Modify the `REPO_URL` in `scripts/stow-dotfiles.sh` to use your own dotfiles repository.
+Modify the `DOTFILES_URL` in `packages.conf` to use your own dotfiles repository.
 
 ##  Important Notes
 
